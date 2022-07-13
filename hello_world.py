@@ -1,24 +1,55 @@
-"""Hello world app."""
 import toga
+from toga.style.pack import CENTER, COLUMN, ROW, Pack
 
 
-def button_handler(widget):
-    print("hello")
+class Graze(toga.App):
+    def startup(self):
+        self.main_window = toga.MainWindow(title=self.name)
 
+        self.webview = toga.WebView(
+            on_webview_load=self.on_webview_loaded, style=Pack(flex=1)
+        )
+        self.url_input = toga.TextInput(
+            initial="https://beeware.org/", style=Pack(flex=1)
+        )
 
-def build(app):
-    box = toga.Box()
+        box = toga.Box(
+            children=[
+                toga.Box(
+                    children=[
+                        self.url_input,
+                        toga.Button(
+                            "Go",
+                            on_press=self.load_page,
+                            style=Pack(width=50, padding_left=5),
+                        ),
+                    ],
+                    style=Pack(
+                        direction=ROW,
+                        alignment=CENTER,
+                        padding=5,
+                    ),
+                ),
+                self.webview,
+            ],
+            style=Pack(direction=COLUMN),
+        )
 
-    button = toga.Button("Hello world", on_press=button_handler)
-    button.style.padding = 50
-    button.style.flex = 1
-    box.add(button)
+        self.main_window.content = box
+        self.webview.url = self.url_input.value
 
-    return box
+        # Show the main window
+        self.main_window.show()
+
+    def load_page(self, widget):
+        self.webview.url = self.url_input.value
+
+    def on_webview_loaded(self, widget):
+        self.url_input.value = self.webview.url
 
 
 def main():
-    return toga.App("First App", "org.beeware.helloworld", startup=build)
+    return Graze("Graze", "org.beeware.graze")
 
 
 if __name__ == "__main__":
