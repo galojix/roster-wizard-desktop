@@ -1,5 +1,7 @@
 """Roster Wizard GUI."""
 import toga
+import os
+import django
 from toga.constants import COLUMN
 from toga.style import Pack
 
@@ -102,5 +104,7 @@ def main():
 
 
 if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "roster_project.settings")
+    django.setup()
     app = main()
     app.main_loop()
