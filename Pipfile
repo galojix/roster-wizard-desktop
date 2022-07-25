@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 toga = "*"
 django = "*"
+ortools = "*"
 
 [dev-packages]
 black = "*"
