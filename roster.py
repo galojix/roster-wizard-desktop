@@ -4,6 +4,30 @@ import os
 import django
 from toga.constants import COLUMN
 from toga.style import Pack
+from toga.sources import Source
+
+
+class StaffSource(Source):
+    def __init__(self):
+        super().__init__()
+
+    def __len__(self):
+        return 5
+
+    def __getitem__(self, index):
+        pass
+
+    def index(self, entry):
+        pass
+
+    def add(self, entry):
+        pass
+
+    def remove(self, item):
+        pass
+
+    def clear(self):
+        pass
 
 
 class RosterApp(toga.App):
@@ -17,7 +41,26 @@ class RosterApp(toga.App):
         label_box6 = toga.Label("This is Box 6 ", style=Pack(padding=10))
         label_box7 = toga.Label("This is Box 7 ", style=Pack(padding=10))
 
-        box0 = toga.Box(children=[label_box0])
+        headings = [
+            "Last Name",
+            "First Name",
+            "Shifts Per Roster",
+            "Enforce Shifts Per Roster",
+            "Enforce One Shift Per Day",
+            "Maximise Shifts if Taking Leave",
+            "Available for Shifts",
+            "Roles",
+            "Action",
+        ]
+
+        staff_table = toga.Table(
+            headings=headings,
+            data=StaffSource(),
+            multiple_select=True,
+            style=Pack(flex=1, padding_left=5),
+        )
+
+        box0 = toga.Box(children=[staff_table])
         box1 = toga.Box(children=[label_box1])
         box2 = toga.Box(children=[label_box2])
         box3 = toga.Box(children=[label_box3])
